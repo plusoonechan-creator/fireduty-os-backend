@@ -29,15 +29,15 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/members/:memberId
+// PUT /api/members/:memberId (upserts, so callers can sync create-or-update in one call)
 router.put('/:memberId', async (req, res) => {
   try {
+    const payload = Object.assign({}, req.body, { memberId: req.params.memberId });
     const member = await Member.findOneAndUpdate(
       { memberId: req.params.memberId },
-      req.body,
-      { new: true, runValidators: true }
+      payload,
+      { new: true, runValidators: true, upsert: true, setDefaultsOnInsert: true }
     );
-    if (!member) return res.status(404).json({ error: 'Member not found' });
     res.json(member);
   } catch (err) {
     res.status(400).json({ error: err.message });
