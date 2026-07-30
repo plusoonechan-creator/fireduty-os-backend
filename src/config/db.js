@@ -1,4 +1,9 @@
+const dns = require('dns');
 const mongoose = require('mongoose');
+
+// Windows' default DNS resolver sometimes fails on the SRV lookup Atlas connection
+// strings rely on; pointing Node at public resolvers works around that.
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 async function connectDB() {
   const uri = process.env.MONGODB_URI;
