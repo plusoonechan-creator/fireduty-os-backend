@@ -5,7 +5,7 @@ const connectDB = require('./config/db');
 
 const membersRouter = require('./routes/members');
 const dutiesRouter = require('./routes/duties');
-const leavesRouter = require('./routes/leaves');
+const specialDutiesRouter = require('./routes/specialDuties');
 
 const app = express();
 app.use(cors());
@@ -14,7 +14,7 @@ app.use(express.json());
 app.get('/health', (req, res) => res.json({ ok: true }));
 app.use('/api/members', membersRouter);
 app.use('/api/duties', dutiesRouter);
-app.use('/api/leaves', leavesRouter);
+app.use('/api/special-duties', specialDutiesRouter);
 
 const port = process.env.PORT || 3000;
 
